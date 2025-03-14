@@ -27,11 +27,3 @@ if [ -d "$SERVICES_DIR" ]; then
 else
     echo "Directory $SERVICES_DIR does not exist."
 fi
-
-echo "Building docker images"
-for dockerfile in "${DOCKERFILES[@]}"; do
-    count=$((count+1))
-    image_name="svc_${count}_$(basename "$(dirname "$dockerfile")")"
-    echo "Building image $count: $image_name"
-    docker build -t "$image_name" -f "$dockerfile" "$(dirname "$dockerfile")"
-done

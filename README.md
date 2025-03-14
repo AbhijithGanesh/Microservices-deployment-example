@@ -24,7 +24,11 @@ All microservices are located in the [`./services`](./services) directory. The p
 
 ### Scripts
 
-The [`./scripts`](./scripts) directory contains all the necessary scripts for automating various tasks within the project, including building Docker images, deployments, and maintenance operations.
+The [`./scripts`](./scripts) directory contains all the necessary scripts for automating various tasks within the project, such as building Docker images, deploying services, and handling maintenance operations. The key scripts include:
+
+- **Build Script:** `scripts/build-images.sh`
+- **Tag and Push Script:** `scripts/list-services.sh`
+- **List Services:** `scripts/tapi.sh`
 
 ### Helm Charts
 
