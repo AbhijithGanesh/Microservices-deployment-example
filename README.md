@@ -1,4 +1,4 @@
-# DevOps Hiring Challenge - My Submission
+# DevOps Hiring Challenge - Staging
 
 This repository is my submission for the DevOps Hiring Challenge, demonstrating a fully automated, self-healing, multi-cloud, multi-region, AI-powered DevOps ecosystem.
 
