@@ -1,0 +1,397 @@
+.
+├── cillium
+│   └── cillium.sh
+├── databases
+│   ├── clickhouse.yaml
+│   └── postgres.yaml
+├── docs
+│   ├── container_registry.md
+│   ├── database.md
+│   ├── helm.md
+│   ├── minio.md
+│   └── scripts.md
+├── grafana
+│   ├── install.sh
+│   ├── README.md
+│   └── svc.yaml
+├── helm
+│   ├── charts
+│   ├── Chart.yaml
+│   ├── README.md
+│   ├── templates
+│   │   ├── common.yaml
+│   │   ├── configmaps
+│   │   │   └── otel.yaml
+│   │   ├── deployments
+│   │   │   ├── adservice.yaml
+│   │   │   ├── cartservice.yaml
+│   │   │   ├── checkout.yaml
+│   │   │   ├── currencyservice.yaml
+│   │   │   ├── email.yaml
+│   │   │   ├── frontend.yaml
+│   │   │   ├── load.yaml
+│   │   │   ├── otel.yaml
+│   │   │   ├── paymentservice.yaml
+│   │   │   ├── productcatalogservice.yaml
+│   │   │   ├── reccommendation.yaml
+│   │   │   ├── redis.yaml
+│   │   │   └── shippingservice.yaml
+│   │   ├── istio
+│   │   │   ├── adservice-authorizationpolicy.yaml
+│   │   │   ├── adservice-networkingpolicy.yaml
+│   │   │   ├── adservice-sidecar.yaml
+│   │   │   ├── cartservice-authorizationpolicy.yaml
+│   │   │   ├── cartservice-sidecar.yaml
+│   │   │   ├── checkout-authorizationpolicy.yaml
+│   │   │   ├── checkout-sidecar.yaml
+│   │   │   ├── currencyservice-authorizationpolicy.yaml
+│   │   │   ├── currencyservice-sidecar.yaml
+│   │   │   ├── email-authorizationpolicy.yaml
+│   │   │   ├── email-sidecar.yaml
+│   │   │   ├── frontend-authorization.yaml
+│   │   │   ├── frontend-sidecar.yaml
+│   │   │   ├── frontend-virtualservice.yaml
+│   │   │   ├── load-sidecar.yaml
+│   │   │   ├── otel-authorizationpolicy.yaml
+│   │   │   ├── otel-sidecar.yaml
+│   │   │   ├── paymentservice-authorizationpolicy.yaml
+│   │   │   ├── paymentservice-sidecar.yaml
+│   │   │   ├── productcatalogservice-authorizationpolicy.yaml
+│   │   │   ├── productcatalogservice-sidecar.yaml
+│   │   │   ├── reccomenndation-authorizationpolicy.yaml
+│   │   │   ├── reccommendation-sidecar.yaml
+│   │   │   ├── redis-authorizationpoloicy.yaml
+│   │   │   ├── redis-sidecar.yaml
+│   │   │   ├── shippingservice-authorization.yaml
+│   │   │   └── shippingservice-sidecar.yaml
+│   │   ├── networkpolicy
+│   │   │   ├── adservice.yaml
+│   │   │   ├── cartservice.yaml
+│   │   │   ├── checkout.yaml
+│   │   │   ├── currencyservice.yaml
+│   │   │   ├── email.yaml
+│   │   │   ├── frontend.yaml
+│   │   │   ├── load.yaml
+│   │   │   ├── otel.yaml
+│   │   │   ├── paymentservice.yaml
+│   │   │   ├── productcatalogservice.yaml
+│   │   │   ├── reccomendation.yaml
+│   │   │   ├── redis-extdestrule.yaml
+│   │   │   ├── redis-serviceentry.yaml
+│   │   │   ├── redis.yaml
+│   │   │   └── shippingservice.yaml
+│   │   ├── NOTES.txt
+│   │   ├── secrets
+│   │   │   └── redis.yaml
+│   │   ├── serviceaccounts
+│   │   │   ├── adservice.yaml
+│   │   │   ├── cart-service.yaml
+│   │   │   ├── checkout.yaml
+│   │   │   ├── currencyservice.yaml
+│   │   │   ├── email.yaml
+│   │   │   ├── frontend.yaml
+│   │   │   ├── load.yaml
+│   │   │   ├── otel.yaml
+│   │   │   ├── paymentservice.yaml
+│   │   │   ├── productcatalogservice.yaml
+│   │   │   ├── reccomendation.yaml
+│   │   │   ├── redis.yaml
+│   │   │   └── shippingservice.yaml
+│   │   └── services
+│   │       ├── adservice.yaml
+│   │       ├── cartservice.yaml
+│   │       ├── checkout.yaml
+│   │       ├── currencyservice.yaml
+│   │       ├── email.yaml
+│   │       ├── frontend-external.yaml
+│   │       ├── frontend.yaml
+│   │       ├── otel.yaml
+│   │       ├── paymentservice.yaml
+│   │       ├── productcatalogservice.yaml
+│   │       ├── reccommendation.yaml
+│   │       ├── redis.yaml
+│   │       └── shippingservice.yaml
+│   └── values.yaml
+├── kafka
+│   └── install.sh
+├── LICENSE
+├── logs
+├── loki
+│   ├── install.sh
+│   └── svc.yaml
+├── minio
+│   ├── minio-sts.yaml
+│   ├── minio-svc.yaml
+│   └── README.md
+├── output.txt
+├── prometheus
+│   ├── install.sh
+│   ├── README.md
+│   └── svc.yaml
+├── README.md
+├── scripts
+│   ├── build-images.sh
+│   ├── ghcr-token.sh
+│   ├── ipf.sh
+│   ├── istio.sh
+│   ├── kickstart.sh
+│   ├── list-services.sh
+│   ├── prometheus.sh
+│   ├── tapi.sh
+│   └── tunnel.sh
+├── services
+│   ├── adservice
+│   │   ├── build.gradle
+│   │   ├── Dockerfile
+│   │   ├── genproto.sh
+│   │   ├── gradle
+│   │   │   └── wrapper
+│   │   │       ├── gradle-wrapper.jar
+│   │   │       └── gradle-wrapper.properties
+│   │   ├── gradlew
+│   │   ├── gradlew.bat
+│   │   ├── README.md
+│   │   ├── settings.gradle
+│   │   └── src
+│   │       └── main
+│   │           ├── java
+│   │           │   └── hipstershop
+│   │           │       ├── AdServiceClient.java
+│   │           │       └── AdService.java
+│   │           ├── proto
+│   │           │   └── demo.proto
+│   │           └── resources
+│   │               └── log4j2.xml
+│   ├── checkoutservice
+│   │   ├── Dockerfile
+│   │   ├── genproto
+│   │   │   ├── demo_grpc.pb.go
+│   │   │   └── demo.pb.go
+│   │   ├── genproto.sh
+│   │   ├── go.mod
+│   │   ├── go.sum
+│   │   ├── main.go
+│   │   ├── money
+│   │   │   ├── money.go
+│   │   │   └── money_test.go
+│   │   └── README.md
+│   ├── currencyservice
+│   │   ├── client.js
+│   │   ├── data
+│   │   │   └── currency_conversion.json
+│   │   ├── Dockerfile
+│   │   ├── genproto.sh
+│   │   ├── package.json
+│   │   ├── package-lock.json
+│   │   ├── proto
+│   │   │   ├── demo.proto
+│   │   │   └── grpc
+│   │   │       └── health
+│   │   │           └── v1
+│   │   │               └── health.proto
+│   │   └── server.js
+│   ├── emailservice
+│   │   ├── demo_pb2_grpc.py
+│   │   ├── demo_pb2.py
+│   │   ├── Dockerfile
+│   │   ├── email_client.py
+│   │   ├── email_server.py
+│   │   ├── genproto.sh
+│   │   ├── logger.py
+│   │   ├── requirements.in
+│   │   ├── requirements.txt
+│   │   └── templates
+│   │       └── confirmation.html
+│   ├── frontend
+│   │   ├── deployment_details.go
+│   │   ├── Dockerfile
+│   │   ├── genproto
+│   │   │   ├── demo_grpc.pb.go
+│   │   │   └── demo.pb.go
+│   │   ├── genproto.sh
+│   │   ├── go.mod
+│   │   ├── go.sum
+│   │   ├── handlers.go
+│   │   ├── main.go
+│   │   ├── middleware.go
+│   │   ├── money
+│   │   │   ├── money.go
+│   │   │   └── money_test.go
+│   │   ├── packaging_info.go
+│   │   ├── README.md
+│   │   ├── rpc.go
+│   │   ├── static
+│   │   │   ├── favicon-cymbal.ico
+│   │   │   ├── favicon.ico
+│   │   │   ├── icons
+│   │   │   │   ├── Cymbal_NavLogo.svg
+│   │   │   │   ├── Hipster_Advert2.svg
+│   │   │   │   ├── Hipster_CartIcon.svg
+│   │   │   │   ├── Hipster_CheckOutIcon.svg
+│   │   │   │   ├── Hipster_CurrencyIcon.svg
+│   │   │   │   ├── Hipster_DownArrow.svg
+│   │   │   │   ├── Hipster_FacebookIcon.svg
+│   │   │   │   ├── Hipster_GooglePlayIcon.svg
+│   │   │   │   ├── Hipster_HelpIcon.svg
+│   │   │   │   ├── Hipster_HeroLogoMaroon.svg
+│   │   │   │   ├── Hipster_HeroLogo.svg
+│   │   │   │   ├── Hipster_InstagramIcon.svg
+│   │   │   │   ├── Hipster_KitchenwareOffer.svg
+│   │   │   │   ├── Hipster_NavLogo.svg
+│   │   │   │   ├── Hipster_PinterestIcon.svg
+│   │   │   │   ├── Hipster_ProfileIcon.svg
+│   │   │   │   ├── Hipster_SearchIcon.svg
+│   │   │   │   ├── Hipster_TwitterIcon.svg
+│   │   │   │   ├── Hipster_UpDownControl.svg
+│   │   │   │   ├── Hipster_WandIcon.svg
+│   │   │   │   └── Hipster_YoutubeIcon.svg
+│   │   │   ├── images
+│   │   │   │   ├── Advert2BannerImage.png
+│   │   │   │   ├── AdvertBannerImage.png
+│   │   │   │   ├── credits.txt
+│   │   │   │   ├── folded-clothes-on-white-chair.jpg
+│   │   │   │   ├── folded-clothes-on-white-chair-wide.jpg
+│   │   │   │   ├── HeroBannerImage2.png
+│   │   │   │   ├── HeroBannerImage.png
+│   │   │   │   └── VRHeadsets.png
+│   │   │   ├── img
+│   │   │   │   └── products
+│   │   │   │       ├── bamboo-glass-jar.jpg
+│   │   │   │       ├── candle-holder.jpg
+│   │   │   │       ├── hairdryer.jpg
+│   │   │   │       ├── loafers.jpg
+│   │   │   │       ├── mug.jpg
+│   │   │   │       ├── salt-and-pepper-shakers.jpg
+│   │   │   │       ├── sunglasses.jpg
+│   │   │   │       ├── tank-top.jpg
+│   │   │   │       └── watch.jpg
+│   │   │   └── styles
+│   │   │       ├── bot.css
+│   │   │       ├── cart.css
+│   │   │       ├── order.css
+│   │   │       └── styles.css
+│   │   ├── templates
+│   │   │   ├── ad.html
+│   │   │   ├── assistant.html
+│   │   │   ├── cart.html
+│   │   │   ├── error.html
+│   │   │   ├── footer.html
+│   │   │   ├── header.html
+│   │   │   ├── home.html
+│   │   │   ├── order.html
+│   │   │   ├── product.html
+│   │   │   └── recommendations.html
+│   │   └── validator
+│   │       ├── validator.go
+│   │       └── validator_test.go
+│   ├── loadgenerator
+│   │   ├── Dockerfile
+│   │   ├── locustfile.py
+│   │   ├── requirements.in
+│   │   └── requirements.txt
+│   ├── paymentservice
+│   │   ├── charge.js
+│   │   ├── Dockerfile
+│   │   ├── genproto.sh
+│   │   ├── index.js
+│   │   ├── logger.js
+│   │   ├── package.json
+│   │   ├── package-lock.json
+│   │   ├── proto
+│   │   │   ├── demo.proto
+│   │   │   └── grpc
+│   │   │       └── health
+│   │   │           └── v1
+│   │   │               └── health.proto
+│   │   └── server.js
+│   ├── productcatalogservice
+│   │   ├── catalog_loader.go
+│   │   ├── Dockerfile
+│   │   ├── genproto
+│   │   │   ├── demo_grpc.pb.go
+│   │   │   └── demo.pb.go
+│   │   ├── genproto.sh
+│   │   ├── go.mod
+│   │   ├── go.sum
+│   │   ├── product_catalog.go
+│   │   ├── product_catalog_test.go
+│   │   ├── products.json
+│   │   ├── README.md
+│   │   └── server.go
+│   ├── recommendationservice
+│   │   ├── client.py
+│   │   ├── demo_pb2_grpc.py
+│   │   ├── demo_pb2.py
+│   │   ├── Dockerfile
+│   │   ├── genproto.sh
+│   │   ├── logger.py
+│   │   ├── recommendation_server.py
+│   │   ├── requirements.in
+│   │   └── requirements.txt
+│   ├── shippingservice
+│   │   ├── Dockerfile
+│   │   ├── genproto
+│   │   │   ├── demo_grpc.pb.go
+│   │   │   └── demo.pb.go
+│   │   ├── genproto.sh
+│   │   ├── go.mod
+│   │   ├── go.sum
+│   │   ├── main.go
+│   │   ├── quote.go
+│   │   ├── README.md
+│   │   ├── shippingservice_test.go
+│   │   └── tracker.go
+│   ├── shoppingassistantservice
+│   │   ├── Dockerfile
+│   │   ├── requirements.in
+│   │   ├── requirements.txt
+│   │   └── shoppingassistantservice.py
+│   └── zcartservice
+│       ├── cartservice.sln
+│       ├── src
+│       │   ├── appsettings.json
+│       │   ├── bin
+│       │   │   └── Debug
+│       │   │       └── net9.0
+│       │   ├── cartservice.csproj
+│       │   ├── cartstore
+│       │   │   ├── AlloyDBCartStore.cs
+│       │   │   ├── ICartStore.cs
+│       │   │   ├── RedisCartStore.cs
+│       │   │   └── SpannerCartStore.cs
+│       │   ├── Dockerfile
+│       │   ├── obj
+│       │   │   └── Debug
+│       │   │       └── net9.0
+│       │   │           ├── cartservice.AssemblyInfo.cs
+│       │   │           ├── cartservice.AssemblyInfoInputs.cache
+│       │   │           ├── cartservice.GeneratedMSBuildEditorConfig.editorconfig
+│       │   │           ├── ref
+│       │   │           └── refint
+│       │   ├── Program.cs
+│       │   ├── protos
+│       │   │   └── Cart.proto
+│       │   ├── services
+│       │   │   ├── CartService.cs
+│       │   │   └── HealthCheckService.cs
+│       │   └── Startup.cs
+│       └── tests
+│           ├── bin
+│           │   └── Debug
+│           │       └── net9.0
+│           ├── CartServiceTests.cs
+│           ├── cartservice.tests.csproj
+│           └── obj
+│               └── Debug
+│                   └── net9.0
+│                       ├── cartservice.tests.AssemblyInfo.cs
+│                       ├── cartservice.tests.AssemblyInfoInputs.cache
+│                       ├── cartservice.tests.GeneratedMSBuildEditorConfig.editorconfig
+│                       ├── ref
+│                       └── refint
+├── tmp
+│   └── ghcr-token.sh
+├── values.yaml
+└── xnl-innovations-hiring-challenge-0.1.0.tgz
+
+88 directories, 307 files
