@@ -26,9 +26,9 @@ All microservices are located in the [`./services`](./services) directory. The p
 
 The [`./scripts`](./scripts) directory contains all the necessary scripts for automating various tasks within the project, including building Docker images, deployments, and maintenance operations.
 
-### Helm Charts - `.helm-xnl`
+### Helm Charts
 
-The [`.helm-xnl`](./.helm-xnl) folder contains all the necessary Kubernetes manifests, organized as Helm charts, to deploy and manage the microservices application.  
+The [`helm`](./helm) folder contains all the necessary Kubernetes manifests, organized as Helm charts, to deploy and manage the microservices application.  
 _For detailed configuration and values, refer to the [Nested README](./.helm-xnl/README.md)._
 
 ### Supporting Components
