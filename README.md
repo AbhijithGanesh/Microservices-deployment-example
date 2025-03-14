@@ -1,4 +1,4 @@
-# DevOps Hiring Challenge - Master Submission
+# DevOps Hiring Challenge
 
 This repository is my submission for the DevOps Hiring Challenge, demonstrating a fully automated, self-healing, multi-cloud, multi-region, AI-powered DevOps ecosystem.
 
@@ -30,6 +30,8 @@ The [`./scripts`](./scripts) directory contains all the necessary scripts for au
 - **Tag and Push Script:** `scripts/list-services.sh`
 - **List Services:** `scripts/tapi.sh`
 
+_For detailed documentation on the scripts usage, refer to [docs/scripts.md](./docs/scripts.md)._
+
 ### Helm Charts
 
 The [`helm`](./helm) folder contains all the necessary Kubernetes manifests, organized as Helm charts, to deploy and manage the microservices application.  
@@ -60,6 +62,16 @@ _For detailed configuration and values, refer to the [Nested README](./.helm-xnl
 - **Prometheus:**  
   Includes Docker Compose configuration and a README for setting up metrics collection and alerting.  
   Directory: [`./prometheus`](./prometheus)
+
+### Documentation
+
+Additional project documentation is available in the [`./docs`](./docs) directory:
+
+- **Container Registry:**  
+  Detailed instructions for setting up and managing the container registry can be found in [docs/container_registry.md](./docs/container_registry.md).
+
+- **Scripts:**  
+  Comprehensive documentation for the provided scripts is available in [docs/scripts.md](./docs/scripts.md).
 
 ## Acknowledgments
 
