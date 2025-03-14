@@ -1,0 +1,26 @@
+name: Helm Lint
+
+on:
+  push:
+    branches:
+      - prod
+      - staging
+  pull_request:
+    branches:
+      - prod
+      - staging
+
+jobs:
+  helm-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: '3.12.0'  # Change to your preferred Helm version
+
+      - name: Lint Helm Chart
+        run: helm lint .

@@ -56,20 +56,6 @@ adService:
       cpu: "300m"
       memory: "300Mi"
 
-cartService:
-  create: true
-  name: cartservice
-  image:
-    repository: "ghcr.io/abhijithganesh/svc_13_zcartservice"
-    tag: "latest"
-  resources:
-    requests:
-      cpu: "100m"
-      memory: "64Mi"
-    limits:
-      cpu: "200m"
-      memory: "128Mi"
-
 checkoutService:
   create: true
   name: checkoutservice
@@ -218,13 +204,9 @@ shoppingAssistantService:
     repository: "ghcr.io/abhijithganesh/svc_11_shoppingassistantservice"
     tag: "latest"
 
-
-
-# Redis configuration
-redis:
-  image:
-    repository: "redis"
-    tag: "alpine"
+cartService:
+  create: true
+  name: cartservice
   resources:
     requests:
       cpu: "100m"

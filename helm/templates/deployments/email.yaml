@@ -41,7 +41,7 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: {{ .Values.images.repository }}/{{ .Values.emailService.name }}:{{ .Values.images.tag | default .Chart.AppVersion }}
+        image: {{ .Values.emailService.image.repository }}:{{ .Values.emailService.image.tag | default .Chart.AppVersion }}
         ports:
         - containerPort: 8080
         env:
@@ -53,14 +53,8 @@ spec:
         - name: OTEL_SERVICE_NAME
           value: "{{ .Values.emailService.name }}"
         {{- end }}
-        {{- if .Values.googleCloudOperations.tracing }}
-        - name: ENABLE_TRACING
-          value: "1"
-        {{- end }}
-        {{- if not .Values.googleCloudOperations.profiler }}
         - name: DISABLE_PROFILER
           value: "1"
-        {{- end }}
         readinessProbe:
           periodSeconds: 5
           grpc:

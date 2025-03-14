@@ -38,11 +38,7 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        {{- if .Values.cartDatabase.inClusterRedis.publicRepository }}
-        image: redis:alpine@sha256:02419de7eddf55aa5bcf49efb74e88fa8d931b4d77c07eff8a6b2144472b6952
-        {{- else }}
-        image: {{ .Values.images.repository }}/redis:alpine
-        {{- end }}
+        image: "{{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}"
         ports:
         - containerPort: 6379
         readinessProbe:
@@ -58,11 +54,11 @@ spec:
           name: redis-data
         resources:
           limits:
-            memory: 256Mi
-            cpu: 125m
+            memory: {{ .Values.redis.resources.limits.memory }}
+            cpu: {{ .Values.redis.resources.limits.cpu }}
           requests:
-            cpu: 70m
-            memory: 200Mi
+            memory: {{ .Values.redis.resources.requests.memory }}
+            cpu: {{ .Values.redis.resources.requests.cpu }}
       volumes:
       - name: redis-data
         emptyDir: {}

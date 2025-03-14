@@ -1,5 +1,5 @@
 apiVersion: v2
-name: .helm-xnl
+name: xnl-innovations-hiring-challenge
 description: A Helm chart for running the microservices of the XNL Hiring challenge.
 maintainers:
     - name: Abhijith Ganesh

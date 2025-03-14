@@ -41,7 +41,7 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: {{ .Values.images.repository }}/{{ .Values.recommendationService.name }}:{{ .Values.images.tag | default .Chart.AppVersion }}
+        image: {{ .Values.recommendationService.image.repository }}:{{ .Values.recommendationService.image.tag | default .Chart.AppVersion }}
         ports:
         - containerPort: 8080
         readinessProbe:
@@ -63,14 +63,8 @@ spec:
         - name: OTEL_SERVICE_NAME
           value: "{{ .Values.recommendationService.name }}"
         {{- end }}
-        {{- if .Values.googleCloudOperations.tracing }}
-        - name: ENABLE_TRACING
-          value: "1"
-        {{- end }}
-        {{- if not .Values.googleCloudOperations.profiler }}
         - name: DISABLE_PROFILER
           value: "1"
-        {{- end }}
         resources:
           {{- toYaml .Values.recommendationService.resources | nindent 10 }}
 {{- end }}
