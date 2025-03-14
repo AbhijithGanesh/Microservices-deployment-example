@@ -1,123 +1,202 @@
-# Default values for .helm-xnl.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+namespace: ag-microservices-demo
 
-# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
-replicaCount: 1
-
-# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
-image:
-  repository: nginx
-  # This sets the pull policy for images.
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
-
-# This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-imagePullSecrets: []
-# This is to override the chart name.
-nameOverride: ""
-fullnameOverride: ""
-
-# This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
-serviceAccount:
-  # Specifies whether a service account should be created
+serviceAccounts:
   create: true
-  # Automatically mount a ServiceAccount's API credentials?
-  automount: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  annotationsOnlyForCartservice: false
+  annotations: {} # Add any annotations here
 
-# This is for setting Kubernetes Annotations to a Pod.
-# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
-podAnnotations: {}
-# This is for setting Kubernetes Labels to a Pod.
-# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
-podLabels: {}
+# Security Settings
+securityContext:
+  enable: true
+seccompProfile:
+  enable: false
+  type: RuntimeDefault
 
-podSecurityContext: {}
-  # fsGroup: 2000
+# Networking and Istio-related settings
+networkPolicies:
+  create: true
+sidecars:
+  create: true
+authorizationPolicies:
+  create: true
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+opentelemetryCollector:
+  create: false
+  name: opentelemetry-collector
 
-# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
-service:
-  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
-  type: ClusterIP
-  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 80
+cartDatabase:
+  type: redis
+  connectionString: "cart-redis:6379"
+  inClusterRedis:
+    create: true
+    name: cart-redis
+    publicRepository: false
+  externalRedisTlsOrigination:
+    enable: false
+    name: external-redis-tls
+    certificate: "" # PEM encoded certificate string
+    endpointAddress: ""
+    endpointPort: 6379
 
-# This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+adService:
+  create: true
+  name: adservice
+  image:
+    repository: "ghcr.io/abhijithganesh/svc_1_adservice"
+    tag: "latest"
+  resources:
+    requests:
+      cpu: 200m
+      memory: 180Mi
+    limits:
+      cpu: 300m
+      memory: 300Mi
 
-# This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-livenessProbe:
-  httpGet:
-    path: /
-    port: http
-readinessProbe:
-  httpGet:
-    path: /
-    port: http
+checkoutService:
+  create: true
+  name: checkoutservice
+  image:
+    repository: "ghcr.io/abhijithganesh/svc_2_checkoutservice"
+    tag: "latest"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
 
-# This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+currencyService:
+  create: true
+  name: currencyservice
+  image:
+    repository: "ghcr.io/abhijithganesh/svc_3_currencyservice"
+    tag: "latest"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
 
-# Additional volumes on the output Deployment definition.
-volumes: []
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
+emailService:
+  create: true
+  name: emailservice
+  image:
+    repository: "ghcr.io/abhijithganesh/svc_4_emailservice"
+    tag: "latest"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
 
-# Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
+frontend:
+  create: true
+  name: frontend
+  image:
+    repository: "ghcr.io/abhijithganesh/svc_5_frontend"
+    tag: "latest"
+  externalService: true
+  cymbalBranding: false
+  platform: local
+  singleSharedSession: false
+  virtualService:
+    create: false
+    hosts:
+      - "*"
+    gateway:
+      name: asm-ingressgateway
+      namespace: asm-ingress
+      labelKey: asm
+      labelValue: ingressgateway
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
 
-nodeSelector: {}
+loadGenerator:
+  create: true
+  name: loadgenerator
+  image:
+    repository: "ghcr.io/abhijithganesh/svc_6_loadgenerator"
+    tag: "latest"
+  checkFrontendInitContainer: true
+  resources:
+    requests:
+      cpu: 300m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
 
-tolerations: []
+paymentService:
+  create: true
+  name: paymentservice
+  image:
+    repository: "ghcr.io/abhijithganesh/svc_7_paymentservice"
+    tag: "latest"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
 
-affinity: {}
+productCatalogService:
+  create: true
+  name: productcatalogservice
+  image:
+    repository: "ghcr.io/abhijithganesh/svc_8_productcatalogservice"
+    tag: "latest"
+  extraLatency: ""
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+recommendationService:
+  create: true
+  name: recommendationservice
+  image:
+    repository: "ghcr.io/abhijithganesh/svc_9_recommendationservice"
+    tag: "latest"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 220Mi
+    limits:
+      cpu: 200m
+      memory: 450Mi
+
+shippingService:
+  create: true
+  name: shippingservice
+  image:
+    repository: "ghcr.io/abhijithganesh/svc_10_shippingservice"
+    tag: "latest"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+shoppingAssistantService:
+  create: true
+  name: shoppingassistantservice
+  image:
+    repository: "ghcr.io/abhijithganesh/svc_11_shoppingassistantservice"
+    tag: "latest"

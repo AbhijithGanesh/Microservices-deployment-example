@@ -26,5 +26,5 @@ for dockerfile in "${DOCKERFILES[@]}"; do
     count=$((count+1))
     image_name="svc_${count}_$(basename "$(dirname "$dockerfile")")"
     echo "docker tag $image_name ghcr.io/abhijithganesh/$image_name:latest"
-    docker push "ghcr.io/abhijithganesh/$image_name:latest"
+    # docker push "ghcr.io/abhijithganesh/$image_name:latest"
 done
