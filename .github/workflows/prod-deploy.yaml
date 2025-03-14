@@ -1,0 +1,51 @@
+name: Deploy to Kubernetes cluster on Azure
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [prod]
+  pull_request:
+    branches: [prod]
+
+jobs:
+  deploy-to-aks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - name: adservice
+          - name: checkoutservice
+          - name: currencyservice
+          - name: emailservice
+          - name: frontend
+          - name: loadgenerator
+          - name: paymentservice
+          - name: productcatalogservice
+          - name: recommendationservice
+          - name: shippingservice
+          - name: shoppingassistantservice
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Azure AKS Context
+        uses: azure/aks-set-context@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
+          resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
+
+      - name: Deploy ${{ matrix.service.name }} via Helm
+        run: |
+          # Define image repository from GitHub Container Registry
+          IMAGE="ghcr.io/${{ github.repository_owner }}/svc_${{ matrix.service.name }}"
+          echo "Deploying ${{ matrix.service.name }} using image: $IMAGE"
+
+          # Upgrade or install the helm chart for the service
+          # Assumes a helm chart exists in the helm/charts directory for each service
+          helm upgrade --install ${{ matrix.service.name }} helm/charts/${{ matrix.service.name }} \
+            --set image.repository=$IMAGE \
+            --set image.tag=latest \
+            --namespace default \
+            --create-namespace

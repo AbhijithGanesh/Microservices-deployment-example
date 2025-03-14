@@ -2,7 +2,7 @@ name: Helm CI Script for Kubernetes
 
 on:
   push:
-    branches: [ master ]
+    branches: [ prod ]
 
 jobs:
   build:
