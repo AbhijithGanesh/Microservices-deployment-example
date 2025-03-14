@@ -19,7 +19,7 @@ spec:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
       imagePullSecrets: 
-  {{- toYaml .Values.imagePullSecrets | nindent 8 }}
+  {{- toYaml .Values.imagePullSecrets.name | nindent 8 }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.loadGenerator.name }}
       {{- else }}
