@@ -6,7 +6,7 @@ This repository is my submission for the DevOps Hiring Challenge, demonstrating 
 
 ### Services
 
-All microservices are located in the `./src` directory. This project comprises 11 distinct services implemented in various languages. You can also find the Protocol Buffers definitions in the [`./protos`](./protos) directory.
+All microservices are located in the `./src` directory. This project comprises 11 distinct services implemented in various languages.
 
 | Service                                             | Language      | Description                                                                                                                                  |
 | --------------------------------------------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
