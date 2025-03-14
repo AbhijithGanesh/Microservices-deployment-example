@@ -1,0 +1,85 @@
+{{- if .Values.opentelemetryCollector.create }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.opentelemetryCollector.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.opentelemetryCollector.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.opentelemetryCollector.name }}
+    spec:
+      {{- if .Values.serviceAccounts.create }}
+      serviceAccountName: {{ .Values.opentelemetryCollector.name }}
+      {{- else }}
+      serviceAccountName: default
+      {{- end }}
+      {{- if .Values.securityContext.enable }}
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        {{- if .Values.seccompProfile.enable }}
+        seccompProfile:
+          type: {{ .Values.seccompProfile.type }}
+        {{- end }}
+      {{- end }}
+      {{- if eq .Values.opentelemetryCollector.projectId "PROJECT_ID" }}
+      initContainers:
+      # Init container retrieves the current cloud project id from the metadata server
+      # and inserts it into the collector config template.
+      # https://cloud.google.com/compute/docs/storing-retrieving-metadata
+      - name: otel-gateway-init
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+        image: busybox:latest@sha256:498a000f370d8c37927118ed80afe8adc38d1edcbfc071627d17b25c88efcab0
+        command:
+        - '/bin/sh'
+        - '-c'
+        - |
+           sed "s/PROJECT_ID/$(curl -H 'Metadata-Flavor: Google' http://metadata.google.internal/computeMetadata/v1/project/project-id)/" /template/collector-gateway-config-template.yaml >> /conf/collector-gateway-config.yaml
+        volumeMounts:
+        - name: collector-gateway-config-template
+          mountPath: /template
+        - name: collector-gateway-config
+          mountPath: /conf
+      {{- end }}
+      containers:
+      # This gateway container receives traces and metrics and forwards them to GCP.
+      - name: otel-gateway
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+        args:
+        - --config=/conf/collector-gateway-config.yaml
+        image: otel/opentelemetry-collector-contrib:0.119.0@sha256:36c35cc213c0f3b64d6e8a3e844dc90822f00725e0e518eaed5b08bcc2231e72
+        volumeMounts:
+        - name: collector-gateway-config
+          mountPath: /conf
+      volumes:
+      # ConfigMap volume containing the collector config template.
+      - name: collector-gateway-config-template
+        configMap:
+          name: collector-gateway-config-template
+          items:
+          - key: collector-gateway-config-template.yaml
+            path: collector-gateway-config-template.yaml
+      # EmptyDir volume for the expanded config (with the cloud project ID).
+      - name: collector-gateway-config
+        emptyDir: {}
+{{- end }}

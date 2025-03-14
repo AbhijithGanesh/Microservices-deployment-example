@@ -1,0 +1,27 @@
+{{- if .Values.opentelemetryCollector.create }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: collector-gateway-config-template
+  namespace: {{ .Release.Namespace }}
+data:
+  collector-gateway-config-template.yaml: |
+    receivers:
+      otlp:
+        protocols: 
+          grpc:
+    processors:
+    exporters:
+      googlecloud:
+        project: {{ .Values.opentelemetryCollector.projectId | quote }}
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: []
+          exporters: [googlecloud]
+        metrics:
+          receivers: [otlp]
+          processors: []
+          exporters: [googlecloud]
+{{- end }}
