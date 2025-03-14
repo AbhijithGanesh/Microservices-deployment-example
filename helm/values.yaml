@@ -236,4 +236,4 @@ prometheus:
   serviceAccountName: "prometheus"
 
 imagePullSecrets:
-  name: ghcr-secret
+  - name: ghcr-secret
