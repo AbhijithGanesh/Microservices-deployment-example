@@ -26,6 +26,14 @@ All microservices are located in the `./src` directory. This project comprises 1
 
 This folder contains all the necessary scripts for automating various tasks within the project, including deployment, testing, and maintenance operations.
 
+### Helm Charts - `.helm-xnl`
+
+This folder contains all the necessary Kubernetes manifests, organized as Helm charts, to deploy and manage the microservices application.
+
+#### Note
+
+Refer to the [Nested Readme](./.helm-xnl/README.md) for detailed context of values
+
 ## Acknowledgments
 
 This project builds upon the open-source [Google Cloud Platform Microservices Demo](https://github.com/GoogleCloudPlatform/microservices-demo/). Please credit the original project accordingly.
