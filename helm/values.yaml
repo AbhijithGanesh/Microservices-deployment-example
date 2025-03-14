@@ -3,7 +3,7 @@ namespace: ag-microservices-demo
 serviceAccounts:
   create: true
   annotationsOnlyForCartservice: false
-  annotations: {}  # Add any annotations here
+  annotations: {} # Add any annotations here
 
 # Security Settings
 securityContext:
@@ -36,7 +36,7 @@ cartDatabase:
   externalRedisTlsOrigination:
     enable: false
     name: external-redis-tls
-    certificate: ""  # PEM encoded certificate string
+    certificate: "" # PEM encoded certificate string
     endpointAddress: ""
     endpointPort: 6379
 
@@ -55,20 +55,6 @@ adService:
     limits:
       cpu: "300m"
       memory: "300Mi"
-
-cartService:
-  create: true
-  name: cartservice
-  image:
-    repository: "ghcr.io/abhijithganesh/svc_13_zcartservice"
-    tag: "latest"
-  resources:
-    requests:
-      cpu: "100m"
-      memory: "64Mi"
-    limits:
-      cpu: "200m"
-      memory: "128Mi"
 
 checkoutService:
   create: true
@@ -218,7 +204,19 @@ shoppingAssistantService:
     repository: "ghcr.io/abhijithganesh/svc_11_shoppingassistantservice"
     tag: "latest"
 
-
+cartService:
+  create: true
+  name: cartservice
+  image:
+    repository: "ghcr.io/abhijithganesh/svc_12_zcartservice"
+    tag: "latest"
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "64Mi"
+    limits:
+      cpu: "200m"
+      memory: "128Mi"
 
 # Redis configuration
 redis:
