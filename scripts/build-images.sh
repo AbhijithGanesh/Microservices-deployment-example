@@ -9,24 +9,22 @@ if [ -d "$SERVICES_DIR" ]; then
     
     for folder in "$SERVICES_DIR"/*/; do
         if [ -d "$folder" ]; then
-            echo "Found folder: $(basename "$folder")"
+            folderName=$(basename "$folder")
+            echo "Found folder: $folderName"
             
             if [ -f "$folder/Dockerfile" ]; then
-                echo "  Dockerfile exists in $(basename "$folder")"
-                DOCKERFILES+=("$folder/Dockerfile") 
+                echo "  Dockerfile exists in $folderName"
+                DOCKERFILES+=("$folder/Dockerfile")
+            elif [ -f "$folder/src/Dockerfile" ]; then
+                echo "  Dockerfile exists in $folderName/src"
+                DOCKERFILES+=("$folder/src/Dockerfile")
             else
-                echo "  No Dockerfile found in $(basename "$folder")"
+                echo "  No Dockerfile found in $folderName"
             fi
         fi
     done
-    
-    echo "Collected Dockerfile paths:"
-    for dockerfile in "${DOCKERFILES[@]}"; do
-        echo "  $dockerfile"
-    done
-else
-    echo "Directory $SERVICES_DIR does not exist."
 fi
+
 
 echo "Building docker images"
 for dockerfile in "${DOCKERFILES[@]}"; do
