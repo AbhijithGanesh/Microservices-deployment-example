@@ -24,7 +24,7 @@ The repository is organized into clearly defined directories to separate concern
 - **`helm/`**: Includes Helm charts and Kubernetes manifests that allow you to deploy and manage the application in a cloud-native environment.
 - **`databases/`**: Contains configuration files for various databases such as ClickHouse, Loki, and Postgres.
 - **`grafana/`**, **`prometheus/`**, **`minio/`**: Directories for monitoring, alerting, and storage solutions.
-- **`cilium/`** and **`litmus/`**: Provide network security/observability and chaos engineering tools respectively.
+- **`cilium/`**: Provide network security/observability and chaos engineering tools respectively.
 - **`scripts/`**: Automation scripts for building images, deploying services, and other maintenance operations.
 - **`output.txt`**: Represents logs or output from deployment or testing runs.
 
@@ -55,7 +55,6 @@ Additional components complement the core services by handling networking, monit
 - **Cilium**: Enhances network security and observability in the Kubernetes cluster.
 - **Databases**: Configurations for ClickHouse, Loki, Postgres, and Redis are provided under the `databases/` directory.
 - **Grafana & Prometheus**: Tools for monitoring and alerting with pre-configured dashboards.
-- **Litmus**: Implements chaos engineering to test the resilience of the ecosystem.
 - **Minio**: Provides object storage capabilities.
 
 ## Scripts and Automation
