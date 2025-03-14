@@ -13,6 +13,8 @@ spec:
       labels:
         app: {{ .Values.cartDatabase.inClusterRedis.name }}
     spec:
+      imagePullSecrets: 
+  {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.cartDatabase.inClusterRedis.name }}
       {{- else }}

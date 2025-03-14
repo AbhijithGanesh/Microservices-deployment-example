@@ -15,6 +15,8 @@ spec:
       labels:
         app: {{ .Values.checkoutService.name }}
     spec:
+      imagePullSecrets: 
+  {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.checkoutService.name }}
       {{- else }}
@@ -41,6 +43,7 @@ spec:
           privileged: false
           readOnlyRootFilesystem: true
         image: {{ .Values.checkoutService.image.repository }}:{{ .Values.checkoutService.image.tag | default .Chart.AppVersion }}
+
         ports:
         - containerPort: 5050
         readinessProbe:

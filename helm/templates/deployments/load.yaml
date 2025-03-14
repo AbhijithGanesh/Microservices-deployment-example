@@ -18,6 +18,8 @@ spec:
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
+      imagePullSecrets: 
+  {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.loadGenerator.name }}
       {{- else }}
@@ -79,6 +81,7 @@ spec:
           privileged: false
           readOnlyRootFilesystem: true
         image: {{ .Values.loadGenerator.image.repository }}:{{ .Values.loadGenerator.image.tag | default .Chart.AppVersion }}
+
         env:
         - name: FRONTEND_ADDR
           value: "{{ .Values.frontend.name }}:80"
