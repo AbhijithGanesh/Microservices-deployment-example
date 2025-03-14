@@ -16,7 +16,7 @@ spec:
         app: {{ .Values.emailService.name }}
     spec:
       imagePullSecrets: 
-  {{- toYaml .Values.imagePullSecrets.name | nindent 8 }}
+  {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.emailService.name }}
       {{- else }}

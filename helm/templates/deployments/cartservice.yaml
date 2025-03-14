@@ -22,7 +22,7 @@ spec:
         app: {{ .Values.cartService.name }}
     spec:
       imagePullSecrets: 
-  {{- toYaml .Values.imagePullSecrets.name | nindent 8 }}
+  {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       {{- if .Values.serviceAccounts.create }}
       serviceAccountName: {{ .Values.cartService.name }}
       {{- else }}
