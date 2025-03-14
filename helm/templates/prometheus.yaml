@@ -1,0 +1,8 @@
+{{- if .Values.prometheus.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: {{ include "my-chart.fullname" . }}-prometheus
+spec:
+  replicas: {{ .Values.prometheus.replicas | default 1 }}
+{{- end }}

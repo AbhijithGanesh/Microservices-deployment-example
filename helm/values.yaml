@@ -218,7 +218,6 @@ cartService:
       cpu: "200m"
       memory: "128Mi"
 
-# Redis configuration
 redis:
   image:
     repository: "redis"
@@ -230,3 +229,8 @@ redis:
     limits:
       cpu: "200m"
       memory: "128Mi"
+
+prometheus:
+  enabled: true
+  replicas: 2
+  serviceAccountName: "prometheus"
