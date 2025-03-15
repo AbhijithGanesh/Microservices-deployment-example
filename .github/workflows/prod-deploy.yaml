@@ -9,6 +9,7 @@ on:
 
 jobs:
   deploy-to-aks:
+    name: Deploying ${{ matrix.service.name }} to AKS
     runs-on: ubuntu-latest
     strategy:
       matrix:
