@@ -90,29 +90,6 @@ Comprehensive documentation is available to guide you through setup, deployment,
 
 These documents provide detailed instructions and best practices for managing various aspects of the project.
 
-## Getting Started
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/your-username/devops-hiring-challenge.git
-   ```
-
-2. **Navigate to the project directory:**
-
-   ```bash
-   cd devops-hiring-challenge
-   ```
-
-3. **Review the documentation in the [`docs/`](./docs) directory for setup and deployment instructions.**
-4. **Deploy the application using Helm:**
-
-   ```bash
-   helm install my-release ./helm
-   ```
-
-5. **Run the automation scripts as needed to build images and manage services.**
-
 ## Acknowledgments
 
 This project is inspired by and builds upon the open-source [Google Cloud Platform Microservices Demo](https://github.com/GoogleCloudPlatform/microservices-demo/). Please credit the original project where appropriate.
