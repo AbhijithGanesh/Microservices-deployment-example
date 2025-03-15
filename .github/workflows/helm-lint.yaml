@@ -23,4 +23,4 @@ jobs:
           version: '3.12.0'  # Change to your preferred Helm version
 
       - name: Lint Helm Chart
-        run: helm lint .
+        run: helm lint helm/

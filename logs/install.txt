@@ -1,3 +1,207 @@
 Step 1: Cleaning old minikube
 * Deleting "minikube" in docker ...
-* Deleting container "minikube" ...
+* Removing /home/codespace/.minikube/machines/minikube ...
+* Removed all traces of the "minikube" cluster.
+Duration: 1 seconds
+--------------------------------------
+Step 2: Starting Minikube...
+* minikube v1.34.0 on Ubuntu 20.04 (docker/amd64)
+* Automatically selected the docker driver. Other choices: ssh, none
+* Using Docker driver with root privileges
+* Starting "minikube" primary control-plane node in "minikube" cluster
+* Pulling base image v0.0.45 ...
+* Creating docker container (CPUs=2, Memory=3900MB) ...
+* Preparing Kubernetes v1.31.0 on Docker 27.2.0 ...
+  - Generating certificates and keys ...
+  - Booting up control plane ...
+  - Configuring RBAC rules ...
+* Configuring bridge CNI (Container Networking Interface) ...
+* Verifying Kubernetes components...
+  - Using image gcr.io/k8s-minikube/storage-provisioner:v5
+* Enabled addons: storage-provisioner, default-storageclass
+* Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+Duration: 35 seconds
+--------------------------------------
+secret/postgres-secret created
+Step 3: Enabling Ingress addon...
+* ingress is an addon maintained by Kubernetes. For any concerns contact minikube on GitHub.
+You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
+  - Using image registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.3
+  - Using image registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.3
+  - Using image registry.k8s.io/ingress-nginx/controller:v1.11.2
+* Verifying ingress addon...
+* The 'ingress' addon is enabled
+Duration: 23 seconds
+--------------------------------------
+Step 4: Enabling Metrics Server addon...
+* metrics-server is an addon maintained by Kubernetes. For any concerns contact minikube on GitHub.
+You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
+  - Using image registry.k8s.io/metrics-server/metrics-server:v0.7.2
+* The 'metrics-server' addon is enabled
+Duration: 0 seconds
+--------------------------------------
+Step 5: Deploying Istio...
+customresourcedefinition.apiextensions.k8s.io/wasmplugins.extensions.istio.io created
+customresourcedefinition.apiextensions.k8s.io/destinationrules.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/envoyfilters.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/gateways.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/proxyconfigs.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/serviceentries.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/sidecars.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/virtualservices.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/workloadentries.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/workloadgroups.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/authorizationpolicies.security.istio.io created
+customresourcedefinition.apiextensions.k8s.io/peerauthentications.security.istio.io created
+customresourcedefinition.apiextensions.k8s.io/requestauthentications.security.istio.io created
+customresourcedefinition.apiextensions.k8s.io/telemetries.telemetry.istio.io created
+Duration: 2 seconds
+--------------------------------------
+Step 6: Deploying Cilium...
+"cilium" already exists with the same configuration, skipping
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "cilium" chart repository
+...Successfully got an update from the "grafana" chart repository
+...Successfully got an update from the "prometheus-community" chart repository
+...Successfully got an update from the "bitnami" chart repository
+Update Complete. ⎈Happy Helming!⎈
+W0315 09:25:57.321951  261323 warnings.go:70] spec.template.metadata.annotations[container.apparmor.security.beta.kubernetes.io/mount-cgroup]: deprecated since v1.30; use the "appArmorProfile" field instead
+W0315 09:25:57.322149  261323 warnings.go:70] spec.template.metadata.annotations[container.apparmor.security.beta.kubernetes.io/apply-sysctl-overwrites]: deprecated since v1.30; use the "appArmorProfile" field instead
+W0315 09:25:57.322367  261323 warnings.go:70] spec.template.metadata.annotations[container.apparmor.security.beta.kubernetes.io/clean-cilium-state]: deprecated since v1.30; use the "appArmorProfile" field instead
+W0315 09:25:57.322568  261323 warnings.go:70] spec.template.metadata.annotations[container.apparmor.security.beta.kubernetes.io/cilium-agent]: deprecated since v1.30; use the "appArmorProfile" field instead
+NAME: cilium-v1
+LAST DEPLOYED: Sat Mar 15 09:25:56 2025
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+You have successfully installed Cilium with Hubble.
+
+Your release version is 1.12.0.
+
+For any further help, visit https://docs.cilium.io/en/v1.12/gettinghelp
+NAME           READY   STATUS     RESTARTS   AGE
+cilium-vsc4n   0/1     Init:0/4   0          0s
+Duration: 6 seconds
+--------------------------------------
+Step 7: Creating monitoring namespace...
+namespace/monitoring created
+Duration: 0 seconds
+--------------------------------------
+Step 8: Adding ghcr secret...
+secret/ghcr-secret created
+Duration: 0 seconds
+--------------------------------------
+Step 9: Packaging Helm chart: xnl-innovations-hiring-challenge...
+Successfully packaged chart and saved it to: /workspaces/XNL-21BRS1200-DEV-2/xnl-innovations-hiring-challenge-0.1.0.tgz
+Duration: 0 seconds
+--------------------------------------
+Step 10: Installing Helm chart: xnl-innovations-hiring-challenge...
+Duration: 3 seconds
+--------------------------------------
+Step 11: Installing Helm chart: prometheus-community...
+"prometheus-community" already exists with the same configuration, skipping
+"grafana" already exists with the same configuration, skipping
+"bitnami" already exists with the same configuration, skipping
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "cilium" chart repository
+...Successfully got an update from the "grafana" chart repository
+...Successfully got an update from the "prometheus-community" chart repository
+...Successfully got an update from the "bitnami" chart repository
+Update Complete. ⎈Happy Helming!⎈
+Creating Monitoring workspace
+NAME         STATUS   AGE
+monitoring   Active   11s
+NAME: prometheus
+LAST DEPLOYED: Sat Mar 15 09:26:10 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+The Prometheus server can be accessed via port 80 on the following DNS name from within your cluster:
+prometheus-server.default.svc.cluster.local
+
+
+Get the Prometheus server URL by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=prometheus,app.kubernetes.io/instance=prometheus" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace default port-forward $POD_NAME 9090
+
+
+The Prometheus alertmanager can be accessed via port 9093 on the following DNS name from within your cluster:
+prometheus-alertmanager.default.svc.cluster.local
+
+
+Get the Alertmanager URL by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=alertmanager,app.kubernetes.io/instance=prometheus" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace default port-forward $POD_NAME 9093
+#################################################################################
+######   WARNING: Pod Security Policy has been disabled by default since    #####
+######            it deprecated after k8s 1.25+. use                        #####
+######            (index .Values "prometheus-node-exporter" "rbac"          #####
+###### .          "pspEnabled") with (index .Values                         #####
+######            "prometheus-node-exporter" "rbac" "pspAnnotations")       #####
+######            in case you still need it.                                #####
+#################################################################################
+
+
+The Prometheus PushGateway can be accessed via port 9091 on the following DNS name from within your cluster:
+prometheus-prometheus-pushgateway.default.svc.cluster.local
+
+
+Get the PushGateway URL by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app=prometheus-pushgateway,component=pushgateway" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace default port-forward $POD_NAME 9091
+
+For more information on running Prometheus, visit:
+https://prometheus.io/
+service/prometheus created
+NAME: grafana
+LAST DEPLOYED: Sat Mar 15 09:26:15 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+1. Get your 'admin' user password by running:
+
+   kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+
+2. The Grafana server can be accessed via port 80 on the following DNS name from within your cluster:
+
+   grafana.default.svc.cluster.local
+
+   Get the Grafana URL to visit by running these commands in the same shell:
+     export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=grafana" -o jsonpath="{.items[0].metadata.name}")
+     kubectl --namespace default port-forward $POD_NAME 3000
+
+3. Login with the password from step 1 and the username: admin
+#################################################################################
+######   WARNING: Persistence is disabled!!! You will lose your data when   #####
+######            the Grafana pod is terminated.                            #####
+#################################################################################
+service/grafana created
+Grafana password is
+Rq31B6k9sbp9fwglgYZqvvHiMJg9oNOPbFVoePB3
+NAME: loki
+LAST DEPLOYED: Sat Mar 15 09:26:18 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+The Loki stack has been deployed to your cluster. Loki can now be added as a datasource in Grafana.
+
+See http://docs.grafana.org/features/datasources/loki/ for more detail.
+service/loki created
+Duration: 19 seconds
+--------------------------------------
+Step 12: Installing databases: Clickhouse and Postgres...
+statefulset.apps/clickhouse created
+service/clickhouse created
+service/postgres created
+persistentvolumeclaim/shared-db-data created
+statefulset.apps/postgres created
+Duration: 0 seconds
+--------------------------------------
+All steps completed successfully in 89 seconds!
