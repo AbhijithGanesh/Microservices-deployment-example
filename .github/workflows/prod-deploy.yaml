@@ -79,12 +79,13 @@ jobs:
             echo "Cilium script not found or Cilium already installed, skipping."
           fi
 
-          # Check and run GHCR token script if it exists.
-          if [ -f ./tmp/ghcr-token.sh ]; then
-            run_and_time "Adding ghcr secret..." ./tmp/ghcr-token.sh
-          else
-            echo "GHCR token script not found or GHCR token already set, skipping."
-          fi
+      - name: Create GHCR Secret in Kubernetes
+        run: |
+          kubectl create secret docker-registry ghcr-secret \
+            --docker-server=ghcr.io \
+            --docker-username=abhijithganesh \
+            --docker-password="${{ secrets.GHCR_TOKEN }}" \
+            --namespace default || echo "GHCR secret already exists"
 
       - name: Package Helm Chart
         run: |
