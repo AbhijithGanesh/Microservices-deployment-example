@@ -20,14 +20,10 @@ spec:
         - containerPort: 8123  # HTTP interface
         - containerPort: 9000  # Native TCP interface
         volumeMounts:
-        - name: clickhouse-data
+        - name: shared-data
           mountPath: /var/lib/clickhouse
-  volumeClaimTemplates:
-  - metadata:
-      name: clickhouse-data
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      storageClassName: "standard"
-      resources:
-        requests:
-          storage: 20Gi
+          subPath: clickhouse
+      volumes:
+      - name: shared-data
+        persistentVolumeClaim:
+          claimName: shared-db-data

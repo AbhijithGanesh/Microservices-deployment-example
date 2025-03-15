@@ -7,6 +7,9 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 
 helm repo update
 
+echo "Creating Monitoring workspace"
+kubectl create ns monitoring
+
 ./prometheus/install.sh && \
 ./grafana/install.sh && \
 ./loki/install.sh

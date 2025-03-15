@@ -21,6 +21,7 @@ function run_and_time() {
   echo "--------------------------------------"
 }
 
+run_and_time "Cleaning old minikube" minikube delete
 
 run_and_time "Starting Minikube..." minikube start
 
