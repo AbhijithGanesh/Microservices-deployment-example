@@ -15,24 +15,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
       - name: Write Kubeconfig from Secret
         run: |
           mkdir -p ~/.kube
           echo "${{ secrets.AZURE_CREDENTIALS }}" > ~/.kube/config
           chmod 600 ~/.kube/config
-
-      - name: Set AKS Context
-        uses: azure/aks-set-context@v3
-        with:
-          resource-group: building-and-testing-workloads
-          cluster-name: ag-cluster-1
-          admin: "false"
-          use-kubelogin: "true"
 
       - name: Verify AKS Connection
         run: kubectl get nodes
