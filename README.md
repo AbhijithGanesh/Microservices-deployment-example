@@ -13,6 +13,14 @@ This repository is my submission for the DevOps Hiring Challenge. It showcases a
 - [Getting Started](#getting-started)
 - [Acknowledgments](#acknowledgments)
 
+## Architecture
+
+**Online Boutique** is composed of 11 microservices written in different languages that talk to each other over gRPC.
+
+[![Architecture of microservices](https://github.com/GoogleCloudPlatform/microservices-demo/raw/5f5b66c8a7c65994911580845200b7e6a562bef5/docs/img/architecture-diagram.png)](https://github.com/GoogleCloudPlatform/microservices-demo/blob/5f5b66c8a7c65994911580845200b7e6a562bef5/docs/img/architecture-diagram.png)
+
+[![Memorystore](https://github.com/GoogleCloudPlatform/microservices-demo/raw/5f5b66c8a7c65994911580845200b7e6a562bef5/docs/img/memorystore.png)](https://github.com/GoogleCloudPlatform/microservices-demo/blob/5f5b66c8a7c65994911580845200b7e6a562bef5/docs/img/memorystore.png)
+
 ## Repository Structure
 
 The repository is organized into clearly defined directories to separate concerns and simplify management:
