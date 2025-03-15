@@ -1,17 +1,24 @@
-{{- if and .Values.adService.create .Values.sidecars.create }}
-apiVersion: networking.istio.io/v1beta1
-kind: Sidecar
+{{- if .Values.sidecars.create }}
+apiVersion: networking.k8s.io/v1
+
+kind: NetworkPolicy
 metadata:
-  name: {{ .Values.adService.name }}
-  namespace: {{ .Release.Namespace }}
+  name: { { .Values.adService.name } }
+  namespace: { { .Release.Namespace } }
 spec:
-  workloadSelector:
-    labels:
-      app: {{ .Values.adService.name }}
+  podSelector:
+    matchLabels:
+      app: { { .Values.adService.name } }
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: { { .Values.frontend.name } }
+      ports:
+        - port: 9555
+          protocol: TCP
   egress:
-  - hosts:
-    - istio-system/*
-    {{- if .Values.opentelemetryCollector.create }}
-    - ./{{ .Values.opentelemetryCollector.name }}.{{ .Release.Namespace }}.svc.cluster.local
-    {{- end }}
-{{- end }}
+    - {}
