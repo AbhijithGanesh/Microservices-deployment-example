@@ -10,6 +10,7 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    name: Build and Push ${{ matrix.service.name }}
     strategy:
       matrix:
         service:
@@ -64,7 +65,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOKEN }}
 
-      - name: Build and Push ${{ matrix.service.name }}
+      - name: Build and Push ${{ matrix.service.name }} Docker Image
         run: |
           image_name="ghcr.io/abhijithganesh/svc_${{ matrix.service.count }}_${{ matrix.service.name }}"
           echo "Building image ${{ matrix.service.count }}: $image_name using Dockerfile ${{ matrix.service.dockerfile }}"
