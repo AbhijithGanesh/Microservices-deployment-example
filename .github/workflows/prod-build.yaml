@@ -2,10 +2,10 @@ name: Build and Push Docker Images to GitHub Container Registry
 
 on:
   workflow_dispatch: {}
-  push:
-    branches: [prod]
-  pull_request:
-    branches: [prod]
+  workflow_run:
+    workflows: ["Helm Lint"]
+    types:
+      - completed
 
 jobs:
   build-and-push:
