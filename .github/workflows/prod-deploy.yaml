@@ -2,12 +2,10 @@ name: Deploy to Kubernetes cluster on Azure
 
 on:
   workflow_dispatch: {}
-  workflow_run:
+  push:
     branches:
       - prod
-    workflows: ["Build and Push Docker Images to GitHub Container Registry"]
-    types:
-      - completed
+
 jobs:
   deploy-to-aks:
     name: Deploy to AKS
