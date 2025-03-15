@@ -4,12 +4,15 @@ kind: Service
 metadata:
   name: {{ .Values.frontend.name }}-external
   namespace: {{ .Release.Namespace }}
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: "myResourceGroup"
 spec:
   type: LoadBalancer
+  loadBalancerIP: "135.237.25.48"
   selector:
     app: {{ .Values.frontend.name }}
   ports:
-  - name: http
-    port: 80
-    targetPort: 8080
+    - name: http
+      port: 80
+      targetPort: 8080
 {{- end }}
