@@ -49,9 +49,5 @@ jobs:
 
       - name: Deploy via Helm
         run: |
-          helm upgrade --install adservice xnl-innovations-hiring-challenge-0.1.0.tgz \
-            -f helm/values.yaml \
-            --set image.repository=$IMAGE \
-            --set image.tag=latest \
-            --namespace default \
-            --create-namespace
+          helm upgrade --install xnl-prod xnl-innovations-hiring-challenge-0.1.0.tgz \
+            -f helm/values.yaml 
