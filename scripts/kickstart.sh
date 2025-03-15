@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Redirect all output to install/logs.txt
+touch install/logs.txt
 exec > install/logs.txt 2>&1
 
 STEP=1
