@@ -13,31 +13,43 @@ jobs:
     strategy:
       matrix:
         service:
-          - name: adservice
+          - count: 1
+            name: adservice
             dockerfile: services/adservice/Dockerfile
-          - name: checkoutservice
+          - count: 2
+            name: checkoutservice
             dockerfile: services/checkoutservice/Dockerfile
-          - name: currencyservice
+          - count: 3
+            name: currencyservice
             dockerfile: services/currencyservice/Dockerfile
-          - name: emailservice
+          - count: 4
+            name: emailservice
             dockerfile: services/emailservice/Dockerfile
-          - name: frontend
+          - count: 5
+            name: frontend
             dockerfile: services/frontend/Dockerfile
-          - name: loadgenerator
+          - count: 6
+            name: loadgenerator
             dockerfile: services/loadgenerator/Dockerfile
-          - name: paymentservice
+          - count: 7
+            name: paymentservice
             dockerfile: services/paymentservice/Dockerfile
-          - name: productcatalogservice
+          - count: 8
+            name: productcatalogservice
             dockerfile: services/productcatalogservice/Dockerfile
-          - name: recommendationservice
+          - count: 9
+            name: recommendationservice
             dockerfile: services/recommendationservice/Dockerfile
-          - name: shippingservice
+          - count: 10
+            name: shippingservice
             dockerfile: services/shippingservice/Dockerfile
-          - name: shoppingassistantservice
+          - count: 11
+            name: shoppingassistantservice
             dockerfile: services/shoppingassistantservice/Dockerfile
-          - name: cartservice
+          - count: 12
+            name: cartservice
             dockerfile: services/cartservice/src/Dockerfile
-            
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -54,7 +66,7 @@ jobs:
 
       - name: Build and Push ${{ matrix.service.name }}
         run: |
-          image_name="ghcr.io/abhijithganesh/svc_${{ matrix.service.name }}"
-          echo "Building image: $image_name using Dockerfile ${{ matrix.service.dockerfile }}"
+          image_name="ghcr.io/${{ github.repository_owner }}/svc_${{ matrix.service.count }}_${{ matrix.service.name }}"
+          echo "Building image ${{ matrix.service.count }}: $image_name using Dockerfile ${{ matrix.service.dockerfile }}"
           docker build -t "$image_name" -f "${{ matrix.service.dockerfile }}" "$(dirname "${{ matrix.service.dockerfile }}")"
           docker push "$image_name"
