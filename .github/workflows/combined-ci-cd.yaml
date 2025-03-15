@@ -1,0 +1,140 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - prod-master
+
+jobs:
+  helm-lint:
+    name: Helm Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: '3.12.0' 
+
+      - name: Lint Helm Chart
+        run: helm lint helm/
+
+  build-and-push:
+    name: Build and Push Docker Images
+    if: github.ref == 'refs/heads/prod'
+    needs: helm-lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - count: 1
+            name: adservice
+            dockerfile: services/adservice/Dockerfile
+          - count: 2
+            name: checkoutservice
+            dockerfile: services/checkoutservice/Dockerfile
+          - count: 3
+            name: currencyservice
+            dockerfile: services/currencyservice/Dockerfile
+          - count: 4
+            name: emailservice
+            dockerfile: services/emailservice/Dockerfile
+          - count: 5
+            name: frontend
+            dockerfile: services/frontend/Dockerfile
+          - count: 6
+            name: loadgenerator
+            dockerfile: services/loadgenerator/Dockerfile
+          - count: 7
+            name: paymentservice
+            dockerfile: services/paymentservice/Dockerfile
+          - count: 8
+            name: productcatalogservice
+            dockerfile: services/productcatalogservice/Dockerfile
+          - count: 9
+            name: recommendationservice
+            dockerfile: services/recommendationservice/Dockerfile
+          - count: 10
+            name: shippingservice
+            dockerfile: services/shippingservice/Dockerfile
+          - count: 11
+            name: shoppingassistantservice
+            dockerfile: services/shoppingassistantservice/Dockerfile
+          - count: 12
+            name: cartservice
+            dockerfile: services/zcartservice/src/Dockerfile
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Build and Push ${{ matrix.service.name }} Docker Image
+        run: |
+          image_name="ghcr.io/abhijithganesh/svc_${{ matrix.service.count }}_${{ matrix.service.name }}"
+          echo "Building image ${{ matrix.service.count }}: $image_name using Dockerfile ${{ matrix.service.dockerfile }}"
+          docker build -t "$image_name" -f "${{ matrix.service.dockerfile }}" "$(dirname "${{ matrix.service.dockerfile }}")"
+          docker push "$image_name"
+
+  deploy-to-aks:
+    name: Deploy to Kubernetes cluster on Azure
+    if: github.ref == 'refs/heads/prod'
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Write Kubeconfig from Secret
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.AZURE_CREDENTIALS }}" > ~/.kube/config
+          chmod 600 ~/.kube/config
+
+      - name: Verify AKS Connection
+        run: kubectl get nodes
+
+      - name: Run additional build scripts
+        env:
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+        run: |
+          echo "Deploying Istio..."
+          ./scripts/istio.sh
+          echo "Deploying Cilium..."
+          ./cillium/cillium.sh
+
+      - name: Create GHCR Secret in Kubernetes
+        run: |
+          kubectl create secret docker-registry ghcr-secret \
+            --docker-server=ghcr.io \
+            --docker-username=abhijithganesh \
+            --docker-password="${{ secrets.GHCR_TOKEN }}" \
+            --namespace default || echo "GHCR secret already exists"
+
+      - name: Package Helm Chart
+        run: |
+          cd helm
+          helm package . --version 0.1.0 --app-version 0.1.0 --destination ..
+          mv ../helm-0.1.0.tgz ../xnl-innovations-hiring-challenge-0.1.0.tgz || true
+          ls -l ..
+
+      - name: Deploy via Helm
+        run: |
+          IMAGE="ghcr.io/abhijithganesh/svc_1_adservice"
+          echo "Deploying service using image: $IMAGE"
+          helm upgrade --install adservice xnl-innovations-hiring-challenge-0.1.0.tgz \
+            -f helm/values.yaml \
+            --set image.repository=$IMAGE \
+            --set image.tag=latest \
+            --namespace default \
+            --create-namespace
