@@ -43,12 +43,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Write Kubeconfig from Secret
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.AZURE_CREDENTIALS }}" > ~/.kube/config
+          chmod 600 ~/.kube/config
 
       - name: Set AKS Context
         uses: azure/aks-set-context@v3
