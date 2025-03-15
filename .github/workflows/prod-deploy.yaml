@@ -24,22 +24,32 @@ jobs:
           - name: recommendationservice
           - name: shippingservice
           - name: shoppingassistantservice
+          - name: cartservice
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up Azure AKS Context
-        uses: azure/aks-set-context@v2
+      - name: Azure Login
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
-          resource-group: ${{ secrets.AKS_RESOURCE_GROUP }}
+
+      - name: Set AKS Context
+        uses: azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          cluster-name: ag-cluster-1
+          resource-group: building-and-testing-workloads
+
+      - name: Verify AKS Connection
+        run: |
+          kubectl get nodes
 
       - name: Deploy ${{ matrix.service.name }} via Helm
         run: |
           # Define image repository from GitHub Container Registry
-          IMAGE="ghcr.io/${{ github.repository_owner }}/svc_${{ matrix.service.name }}"
+          IMAGE="ghcr.io/abhijithganesh/svc_${{ matrix.service.count }}_${{ matrix.service.name }}"
           echo "Deploying ${{ matrix.service.name }} using image: $IMAGE"
 
           # Upgrade or install the helm chart for the service
