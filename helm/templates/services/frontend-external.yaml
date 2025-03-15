@@ -17,7 +17,6 @@ spec:
       targetPort: 8080
 {{- end }}
 
-{{- if .Values.frontend.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -37,4 +36,3 @@ spec:
                 name: {{ .Values.frontend.name }}-external
                 port:
                   number: 80
-{{- end }}
