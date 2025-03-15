@@ -61,11 +61,23 @@ jobs:
         run: |
           kubectl get nodes
 
+      # Package the Helm chart from the helm/ directory into xnl-innovations-hiring-challenge-0.1.0.tgz
+      - name: Package Helm Chart
+        run: |
+          cd helm
+          helm package . --version 0.1.0 --app-version 0.1.0 --destination ..
+          mv ../helm-0.1.0.tgz ../xnl-innovations-hiring-challenge-0.1.0.tgz || true
+          ls -l ..
+
       - name: Deploy ${{ matrix.service.name }} via Helm
         run: |
           IMAGE="ghcr.io/abhijithganesh/svc_${{ matrix.service.count }}_${{ matrix.service.name }}"
           echo "Deploying ${{ matrix.service.name }} using image: $IMAGE"
-          helm upgrade --install ${{ matrix.service.name }} helm/charts/${{ matrix.service.name }} \
+
+          # Use the packaged chart xnl-innovations-hiring-challenge-0.1.0.tgz
+          # and also supply a local values.yaml file for overrides
+          helm upgrade --install ${{ matrix.service.name }} xnl-innovations-hiring-challenge-0.1.0.tgz \
+            -f helm/values.yaml \
             --set image.repository=$IMAGE \
             --set image.tag=latest \
             --namespace default \
