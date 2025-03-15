@@ -42,30 +42,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-      - name: Set AKS Context
-        uses: azure/aks-set-context@v3
-        with:
-          resource-group: building-and-testing-workloads
-          cluster-name: ag-cluster-1
-          admin: 'false'
-          use-kubelogin: 'true'
+      - name: Write Kubeconfig from Secret
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.AZURE_CREDENTIALS }}" > ~/.kube/config
+          chmod 600 ~/.kube/config
 
       - name: Verify AKS Connection
         run: |
           kubectl get nodes
 
-      # Package the Helm chart from the helm/ directory into xnl-innovations-hiring-challenge-0.1.0.tgz
       - name: Package Helm Chart
         run: |
           cd helm
           helm package . --version 0.1.0 --app-version 0.1.0 --destination ..
+          # Rename the package to the expected name if necessary
           mv ../helm-0.1.0.tgz ../xnl-innovations-hiring-challenge-0.1.0.tgz || true
           ls -l ..
 
@@ -73,9 +64,6 @@ jobs:
         run: |
           IMAGE="ghcr.io/abhijithganesh/svc_${{ matrix.service.count }}_${{ matrix.service.name }}"
           echo "Deploying ${{ matrix.service.name }} using image: $IMAGE"
-
-          # Use the packaged chart xnl-innovations-hiring-challenge-0.1.0.tgz
-          # and also supply a local values.yaml file for overrides
           helm upgrade --install ${{ matrix.service.name }} xnl-innovations-hiring-challenge-0.1.0.tgz \
             -f helm/values.yaml \
             --set image.repository=$IMAGE \
