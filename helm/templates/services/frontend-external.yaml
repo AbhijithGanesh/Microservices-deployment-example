@@ -16,23 +16,3 @@ spec:
       port: 80
       targetPort: 8080
 {{- end }}
-
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: {{ .Values.frontend.name }}-ingress
-  namespace: {{ .Release.Namespace }}
-  annotations:
-    kubernetes.io/ingress.class: "nginx" 
-spec:
-  rules:
-    - host: xnl.abhijithganesh.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .Values.frontend.name }}-external
-                port:
-                  number: 80
