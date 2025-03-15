@@ -5,25 +5,30 @@ STEP=1
 TOTAL_START=$(date +%s)
 
 function step_echo() {
-  echo "Step ${STEP}: $1"
-  ((STEP++))
+    echo "Step ${STEP}: $1"
+    ((STEP++))
 }
 
 function run_and_time() {
-  local description="$1"
-  shift
-  step_echo "${description}"
-  local start=$(date +%s)
-  "$@"
-  local end=$(date +%s)
-  local duration=$((end - start))
-  echo "Duration: ${duration} seconds"
-  echo "--------------------------------------"
+    local description="$1"
+    shift
+    step_echo "${description}"
+    local start=$(date +%s)
+    "$@"
+    local end=$(date +%s)
+    local duration=$((end - start))
+    echo "Duration: ${duration} seconds"
+    echo "--------------------------------------"
 }
+
 
 run_and_time "Cleaning old minikube" minikube delete
 
 run_and_time "Starting Minikube..." minikube start
+
+
+kubectl create secret generic postgres-secret \
+--from-literal=password=postgres
 
 run_and_time "Enabling Ingress addon..." minikube addons enable ingress
 
@@ -41,7 +46,9 @@ run_and_time "Packaging Helm chart: xnl-innovations-hiring-challenge..." helm pa
 
 run_and_time "Installing Helm chart: xnl-innovations-hiring-challenge..." bash -c 'kubectl delete sidecars.networking.istio.io adservice --namespace default --ignore-not-found && helm install xnl-v1 xnl-innovations-hiring-challenge-0.1.0.tgz -f values.yaml > logs/install.log'
 
-run_and_time "Installing Helm chart: prometheus-community..." ./scripts/ipf.sh
+run_and_time "Installing Helm chart: prometheus-community..." ./scripts/installgpf.sh
+
+run_and_time "Installing databases: Clickhouse and Postgres..." ./scripts/installdb.sh
 
 TOTAL_END=$(date +%s)
 TOTAL_DURATION=$((TOTAL_END - TOTAL_START))

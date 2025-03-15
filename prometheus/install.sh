@@ -1,4 +1,4 @@
 #/bin/bash
 
-helm install prometheus prometheus-community/prometheus --namespace monitoring
+helm install prometheus prometheus-community/prometheus 
 kubectl apply -f prometheus/svc.yaml
