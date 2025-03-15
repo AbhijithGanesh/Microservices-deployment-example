@@ -42,21 +42,54 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Write Kubeconfig from Secret
-        run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.AZURE_CREDENTIALS }}" > ~/.kube/config
-          chmod 600 ~/.kube/config
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set AKS Context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: building-and-testing-workloads
+          cluster-name: ag-cluster-1
+          admin: 'false'
+          use-kubelogin: 'true'
 
       - name: Verify AKS Connection
         run: |
           kubectl get nodes
 
+      - name: Run additional build scripts
+        env:
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+        run: |
+          # Check and run Istio deployment script if it exists.
+          if [ -f ./scripts/istio.sh ]; then
+            run_and_time "Deploying Istio..." ./scripts/istio.sh
+          else
+            echo "Istio script not found or Istio already installed, skipping."
+          fi
+
+          # Check and run Cilium deployment script if it exists.
+          if [ -f ./cillium/cillium.sh ]; then
+            run_and_time "Deploying Cilium..." ./cillium/cillium.sh
+          else
+            echo "Cilium script not found or Cilium already installed, skipping."
+          fi
+
+          # Check and run GHCR token script if it exists.
+          if [ -f ./tmp/ghcr-token.sh ]; then
+            run_and_time "Adding ghcr secret..." ./tmp/ghcr-token.sh
+          else
+            echo "GHCR token script not found or GHCR token already set, skipping."
+          fi
+
       - name: Package Helm Chart
         run: |
           cd helm
           helm package . --version 0.1.0 --app-version 0.1.0 --destination ..
-          # Rename the package to the expected name if necessary
           mv ../helm-0.1.0.tgz ../xnl-innovations-hiring-challenge-0.1.0.tgz || true
           ls -l ..
 
