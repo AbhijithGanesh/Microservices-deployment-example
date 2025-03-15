@@ -1,14 +1,13 @@
 {{- if .Values.sidecars.create }}
 apiVersion: networking.k8s.io/v1
-
 kind: NetworkPolicy
 metadata:
-  name: { { .Values.adService.name } }
-  namespace: { { .Release.Namespace } }
+  name: {{ .Values.adService.name }}
+  namespace: {{ .Release.Namespace }}
 spec:
   podSelector:
     matchLabels:
-      app: { { .Values.adService.name } }
+      app: {{ .Values.adService.name }}
   policyTypes:
     - Ingress
     - Egress
@@ -16,9 +15,10 @@ spec:
     - from:
         - podSelector:
             matchLabels:
-              app: { { .Values.frontend.name } }
+              app: {{ .Values.frontend.name }}
       ports:
         - port: 9555
           protocol: TCP
   egress:
     - {}
+{{- end }}
