@@ -9,36 +9,8 @@ on:
 
 jobs:
   deploy-to-aks:
-    name: Deploying ${{ matrix.service.name }} to AKS
+    name: Deploy to AKS
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        service:
-          - count: 1
-            name: adservice
-          - count: 2
-            name: checkoutservice
-          - count: 3
-            name: currencyservice
-          - count: 4
-            name: emailservice
-          - count: 5
-            name: frontend
-          - count: 6
-            name: loadgenerator
-          - count: 7
-            name: paymentservice
-          - count: 8
-            name: productcatalogservice
-          - count: 9
-            name: recommendationservice
-          - count: 10
-            name: shippingservice
-          - count: 11
-            name: shoppingassistantservice
-          - count: 12
-            name: cartservice
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -49,17 +21,8 @@ jobs:
           echo "${{ secrets.AZURE_CREDENTIALS }}" > ~/.kube/config
           chmod 600 ~/.kube/config
 
-      - name: Set AKS Context
-        uses: azure/aks-set-context@v3
-        with:
-          resource-group: building-and-testing-workloads
-          cluster-name: ag-cluster-1
-          admin: 'false'
-          use-kubelogin: 'true'
-
       - name: Verify AKS Connection
-        run: |
-          kubectl get nodes
+        run: kubectl get nodes
 
       - name: Run additional build scripts
         env:
@@ -94,11 +57,11 @@ jobs:
           mv ../helm-0.1.0.tgz ../xnl-innovations-hiring-challenge-0.1.0.tgz || true
           ls -l ..
 
-      - name: Deploy ${{ matrix.service.name }} via Helm
+      - name: Deploy via Helm
         run: |
-          IMAGE="ghcr.io/abhijithganesh/svc_${{ matrix.service.count }}_${{ matrix.service.name }}"
-          echo "Deploying ${{ matrix.service.name }} using image: $IMAGE"
-          helm upgrade --install ${{ matrix.service.name }} xnl-innovations-hiring-challenge-0.1.0.tgz \
+          IMAGE="ghcr.io/abhijithganesh/svc_1_adservice"
+          echo "Deploying service using image: $IMAGE"
+          helm upgrade --install adservice xnl-innovations-hiring-challenge-0.1.0.tgz \
             -f helm/values.yaml \
             --set image.repository=$IMAGE \
             --set image.tag=latest \
