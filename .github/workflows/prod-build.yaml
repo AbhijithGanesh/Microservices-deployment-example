@@ -35,7 +35,9 @@ jobs:
             dockerfile: services/shippingservice/Dockerfile
           - name: shoppingassistantservice
             dockerfile: services/shoppingassistantservice/Dockerfile
-
+          - name: cartservice
+            dockerfile: services/cartservice/src/Dockerfile
+            
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3

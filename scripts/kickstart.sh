@@ -44,7 +44,7 @@ run_and_time "Adding ghcr secret..." ./tmp/ghcr-token.sh
 
 run_and_time "Packaging Helm chart: xnl-innovations-hiring-challenge..." helm package helm/
 
-run_and_time "Installing Helm chart: xnl-innovations-hiring-challenge..." bash -c 'kubectl delete sidecars.networking.istio.io adservice --namespace default --ignore-not-found && helm install xnl-v1 xnl-innovations-hiring-challenge-0.1.0.tgz -f values.yaml > logs/install.log'
+run_and_time "Installing Helm chart: xnl-innovations-hiring-challenge..." helm install xnl-v1 xnl-innovations-hiring-challenge-0.1.0.tgz -f values.yaml > logs/install.log'
 
 run_and_time "Installing Helm chart: prometheus-community..." ./scripts/installgpf.sh
 
