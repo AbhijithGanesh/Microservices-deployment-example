@@ -5,10 +5,9 @@ metadata:
   name: {{ .Values.frontend.name }}-external
   namespace: {{ .Release.Namespace }}
   annotations:
-    service.beta.kubernetes.io/azure-load-balancer-resource-group: "myResourceGroup"
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: "building-and-testing-workloads"
 spec:
   type: LoadBalancer
-  loadBalancerIP: "135.237.25.48"
   selector:
     app: {{ .Values.frontend.name }}
   ports:
