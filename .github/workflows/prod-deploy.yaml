@@ -31,7 +31,7 @@ jobs:
           echo "Deploying Istio..."
           ./scripts/istio.sh
           echo "Deploying Cilium..."
-          ./cilium.sh
+          ./cillium/cillium.sh
 
       - name: Create GHCR Secret in Kubernetes
         run: |
