@@ -1,0 +1,23 @@
+NAME: xnl-v1
+LAST DEPLOYED: Sat Mar 15 08:14:39 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+###############################
+### Frontend External Service ###
+###############################
+
+**Note:** It may take several minutes for the LoadBalancer IP to become available.
+
+To monitor the status of the external service, run:
+```bash
+kubectl get svc --namespace default frontend-external -w
+```
+
+Once the IP is available, retrieve it with:
+```bash
+export SERVICE_IP=$(kubectl get svc --namespace default frontend-external --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+echo "Frontend URL: http://$SERVICE_IP"
+```
