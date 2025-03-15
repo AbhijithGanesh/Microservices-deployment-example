@@ -49,8 +49,6 @@ jobs:
 
       - name: Deploy via Helm
         run: |
-          IMAGE="ghcr.io/abhijithganesh/svc_1_adservice"
-          echo "Deploying service using image: $IMAGE"
           helm upgrade --install adservice xnl-innovations-hiring-challenge-0.1.0.tgz \
             -f helm/values.yaml \
             --set image.repository=$IMAGE \
