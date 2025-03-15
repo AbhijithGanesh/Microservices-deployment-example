@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Redirect all output to install/logs.txt
+exec > install/logs.txt 2>&1
+
 STEP=1
 TOTAL_START=$(date +%s)
 
@@ -21,14 +24,12 @@ function run_and_time() {
     echo "--------------------------------------"
 }
 
-
 run_and_time "Cleaning old minikube" minikube delete
 
 run_and_time "Starting Minikube..." minikube start
 
-
 kubectl create secret generic postgres-secret \
---from-literal=password=postgres
+  --from-literal=password=postgres
 
 run_and_time "Enabling Ingress addon..." minikube addons enable ingress
 
