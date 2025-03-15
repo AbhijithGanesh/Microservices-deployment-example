@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-touch install/logs.txt
-exec > install/logs.txt 2>&1
+mkdir -p logs
+touch logs/install.txt
+exec > logs/install.txt 2>&1
 
 STEP=1
 TOTAL_START=$(date +%s)
