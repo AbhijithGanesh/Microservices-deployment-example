@@ -66,7 +66,7 @@ jobs:
 
       - name: Build and Push ${{ matrix.service.name }}
         run: |
-          image_name="ghcr.io/${{ github.repository_owner }}/svc_${{ matrix.service.count }}_${{ matrix.service.name }}"
+          image_name="ghcr.io/abhijithganesh/svc_${{ matrix.service.count }}_${{ matrix.service.name }}"
           echo "Building image ${{ matrix.service.count }}: $image_name using Dockerfile ${{ matrix.service.dockerfile }}"
           docker build -t "$image_name" -f "${{ matrix.service.dockerfile }}" "$(dirname "${{ matrix.service.dockerfile }}")"
           docker push "$image_name"
