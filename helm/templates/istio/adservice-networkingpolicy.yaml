@@ -1,4 +1,4 @@
-{{- if .Values.sidecars.create }}
+{{- if and .Values.adService.create .Values.authorizationPolicies.create }}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
